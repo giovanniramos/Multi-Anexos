@@ -82,18 +82,18 @@ class MultiAnexos {
 	 * @return array Retorna o email
 	 *
 	 * */
-    public function setMail($type, $mail = null, $name = null) {
+	public function setMail($type, $mail = null, $name = null) {
 		if(isset($mail) && self::is_mail($mail)):
-    		$type = strtolower($type);
-    		$type = str_replace('-', null, $type);
-    		$type = str_replace('_', null, $type);
+			$type = strtolower($type);
+			$type = str_replace('-', null, $type);
+			$type = str_replace('_', null, $type);
 
 			if(isset($type) && ereg('^[[:lower:]]*$', $type)):
-		        if(!is_array($this->$type))
-		            $this->$type = array();
-		        array_push($this->$type, array($mail, $name));
-		        return $this->$type;
- 			endif;
+				if(!is_array($this->$type))
+					$this->$type = array();
+				array_push($this->$type, array($mail, $name));
+				return $this->$type;
+			endif;
      	endif;
     }
 
@@ -106,7 +106,7 @@ class MultiAnexos {
 	 * @return string Retorna a lista de acordo com o tipo
 	 *
 	 * */
-	 public function getMail($type) {
+	public function getMail($type) {
 		if(isset($type)):
 			if(!$this->$type) return false;
 			if(!is_array($list)) $list = array(); 
@@ -348,7 +348,7 @@ class MultiAnexos {
 
 		$status_message = ($status) ?
 		'<span class="mail_ok">Sua mensagem foi enviada com sucesso.</span>' : 
-		'<span class="mail_no">Sua mensagem n&atilde;o p&ocirc;de ser enviada.</span><br /><br />Por favor tente novamente mais tarde.' ;
+		'<span class="mail_no">Sua mensagem n&atilde;o p&ocirc;de ser enviada.</span><br /><br />Por favor tente novamente mais tarde.';
 
 		define('SEND_RETURN', $status_message);
 		
