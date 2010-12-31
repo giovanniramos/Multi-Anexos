@@ -1,0 +1,101 @@
+/*
+TIPOGRAFIA
+Giovanni Ramos | Twitter: @giovanni_ramos
+*/
+
+@import url("reset.css");
+
+* html .clearBoth { /* Peekaboo */
+	height: 1%;
+}
+body, table, p, input, select, textarea, button, div, a, label, ul, li, pre, cite, legend {
+	color: #000;
+	font: normal 11px Arial, Helvetica, sans-serif;
+	text-decoration: none;
+}
+html, body {
+	border: 0; 
+	margin: 0; 
+	padding: 0; 
+	width: 100%; 
+	height: 100%;
+}
+form {
+	display: inline; 
+	margin: 0; 
+	padding: 0; 
+	height: 25px; 
+	line-height: 25px;
+}
+input, textarea {
+	border: solid 1px #BBB; 
+	cursor: pointer;
+	cursor: hand;
+}
+
+
+.mail_ok {
+	color: #00F;
+}
+.mail_no {
+	color: #F00;
+}
+
+
+#div {
+	padding: 20px;
+}
+#div h1 {
+	font: bold 14px verdana, arial, helvetica, sans-serif;
+	margin-bottom: 15px;
+}
+#frm fieldset {
+	border: 1px solid #8F8E96;
+	width: 380px;
+	margin: 10px 0px;
+	padding: 10px;
+}
+#frm fieldset legend {
+	color: #4F4691;
+	font-size: 14px;
+	font-weight: bold;
+	padding: 5px;
+	margin-bottom: 10px;
+}
+#frm fieldset label {
+	display: block;
+	font-weight: bold;
+}
+#frm p,
+#frm span {
+	display: block;
+	background: #F6F6F6;
+	border-bottom: dashed 1px #DDD;
+	padding: 10px 0px 10px 15px;
+}
+#frm span {
+	text-align: right;
+	padding-right: 10px;
+}
+#frm input,
+#frm textarea {
+	color: #555;
+	padding: 4px; 
+	width: 340px;
+}
+#frm .text {
+	height: 70px;
+}
+#frm .file {
+	font-weight: normal;
+	padding-right: 7px;
+	width: 350px;
+}
+#frm .send {
+	color: #5A586F; 
+	background: #B7BBC2; 
+	border: solid 1px #8F8E96; 
+	font-weight: bold;
+	width: 130px;
+}
+
