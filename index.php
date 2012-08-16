@@ -31,7 +31,7 @@ endif;
     <body>
         <?php
         if ($_POST):
-            echo defined('SEND_RETURN') ? '<h2>' . SEND_RETURN . '</h2>' : '<h2>Informe seu nome e um email válido.</h2>';
+            echo defined('SEND_RETURN') ? SEND_RETURN : '<div class="formee-msg-warning"><h3>Informe seu nome e um email válido.</h3></div>';
         endif;
 
         #MultiAnexos::showPOST(); // Exibindo as variáveis após submeter o formulário
@@ -60,7 +60,7 @@ endif;
                     <input type="text" id="email" name="email" class="formee-small" />
                 </div>
                 <div class="grid-12-12">
-                    <label for="telefone">Telefone <em class="formee-req">*</em></label>
+                    <label for="telefone">Telefone</label>
                     <input type="text" id="telefone" name="telefone" class="formee-small" />
                 </div>
                 <div class="grid-12-12">
@@ -76,7 +76,7 @@ endif;
                     <input type="file" id="arquivo3" name="arquivo[]" class="formee-small" />
                 </div>
                 <div class="grid-12-12">
-                    <label for="mensagem">Mensagem <em class="formee-req">*</em></label>
+                    <label for="mensagem">Mensagem</label>
                     <textarea id="mensagem" name="mensagem" cols="10" rows="10"></textarea>
                 </div>
                 <div class="grid-12-12">
