@@ -50,7 +50,7 @@ $email->setSubject('Assunto da mensagem');
 
 
 // FROM: definindo o e-mail do remetente
-$email->setMail('from', 'primeiro_email@google.com', 'Seu Nome'); // O 3º parâmetro é opcional e serve apenas para apelidar o e-mail
+$email->setMail('from', 'primeiro_email@google.com', 'Seu Nome'); // O 3º parâmetro é opcional
 $email->setMail('from', 'segundo_email@google.com'); // O método setMail(), suporta adicionar múltiplos e-mails
 $email->setMail('from', 'email_errado.com'); // Este e-mail está incorreto, portanto não será adicionado
 
