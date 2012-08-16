@@ -63,12 +63,12 @@ class MultiAnexos
     /**
      * Método para validar o e-mail
      * 
-     * @access private
+     * @access public
      * @param string $mail E-mail válido
      * @return boolean Retorna true, se o e-mail estiver correto
      *
      * */
-    private function is_mail($mail = null)
+    public function is_mail($mail = null)
     {
         return (filter_var(trim($mail), FILTER_VALIDATE_EMAIL) ? true : false);
     }
@@ -115,7 +115,7 @@ class MultiAnexos
             $type = str_replace('-', null, $type);
             $type = str_replace('_', null, $type);
 
-            if (isset($type) && ereg('^[[:lower:]]*$', $type)):
+            if (isset($type) && mb_ereg('^[[:lower:]]*$', $type)):
                 if (!is_array($this->$type))
                     $this->$type = array();
                 array_push($this->$type, array($mail, $name));
@@ -374,8 +374,8 @@ class MultiAnexos
 
         // Mensagem de status do envio
         $status_message = ($status) ?
-        '<span class="mail_ok">Sua mensagem foi enviada com sucesso.</span>' :
-        '<span class="mail_no">Sua mensagem n&atilde;o p&ocirc;de ser enviada.</span><br /><br />Por favor tente novamente mais tarde.';
+        '<div class="formee-msg-success"><ul><li>Sua mensagem foi enviada com sucesso.</li></ul></div>' :
+        '<div class="formee-msg-error"><ul><li>Sua mensagem n&atilde;o p&ocirc;de ser enviada.</li><li>Por favor tente novamente mais tarde.</li></ul></div>';
 
         define('SEND_RETURN', $status_message);
 
