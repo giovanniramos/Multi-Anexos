@@ -26,8 +26,6 @@ require_once("classes/MultiAnexos.class.php");
 Configuração
 --------------------------------------------------
 
-lorem
-
 ~~~ php
 <?php
 
@@ -49,7 +47,6 @@ $email = new MultiAnexos('Assunto da mensagem');
 
 # Forma 2 - definindo usando o método setSubject()
 $email->setSubject('Assunto da mensagem');
-
 
 
 // FROM: definindo o e-mail do remetente
@@ -89,35 +86,17 @@ $email->setReturnPath(false);
 
 
 // E por fim, depois de toda a configuração, para enviar o formulário utilize o método send()
+// Nota: Se você estiver testando o script em um servidor local (Ex.:Xampp), abra o php.ini,
+// localize e descomente a linha com "sendmail_path", para usar a função mail()
 $email->send();
-
-
-// Exibindo as variáveis logo após o envio do formulário
-MultiAnexos::showPOST();
-
-// Exibindo um preview da mensagem html formatada
-MultiAnexos::showHTML();
-
 
 ?>
 ~~~ 
 
 
-
-Instruções sobre cada método
+Outros métodos da classe
 --------------------------------------------------
 
-Instruções SQL de consulta:
+`MultiAnexos::showPOST()`: exibindo as variáveis logo após o envio do formulário
 
-`PDO4You::setSubject()`: obtém registros como um array indexado pelo nome da coluna. Equivale a PDO::FETCH_ASSOC
-
-`PDO4You::selectNum()`: obtém registros como um array indexado pelo número da coluna. Equivale a PDO::FETCH_NUM
-
-`PDO4You::selectObj()`: obtém registros como um objeto com nomes de coluna como propriedades. Equivale a PDO::FETCH_OBJ
-
-`PDO4You::selectAll()`: obtém registros como um array indexado tanto pelo nome como pelo número da coluna. Equivale a PDO::FETCH_BOTH
-
-
-Abaixo seguem exemplos de como realizar estas operações.
-
-
+`MultiAnexos::showHTML()`: exibindo um preview da mensagem html formatada
