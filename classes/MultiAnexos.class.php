@@ -216,7 +216,7 @@ class MultiAnexos
         '<!DOCTYPE html>
         <html>
         <head>
-        <meta charset="utf-8" />
+        <meta charset="UTF-8" />
         <style>
         body {background:#FFFFFF;}
         a, a:link {color:#5b6105; text-decoration:none;}
@@ -374,8 +374,8 @@ class MultiAnexos
 
         // Mensagem de status do envio
         $status_message = ($status) ?
-        '<span>Sua mensagem foi enviada com sucesso.</span>' :
-        '<span>Sua mensagem n&atilde;o p&ocirc;de ser enviada.</span><br /><br />Por favor tente novamente mais tarde.';
+        '<span class="mail_ok">Sua mensagem foi enviada com sucesso.</span>' :
+        '<span class="mail_no">Sua mensagem n&atilde;o p&ocirc;de ser enviada.</span><br /><br />Por favor tente novamente mais tarde.';
 
         define('SEND_RETURN', $status_message);
 
