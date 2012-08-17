@@ -19,6 +19,14 @@ endif;
     <head>
         <meta charset="UTF-8" />
         <title>Multi-Anexos</title>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="vendor/uniform/jquery.uniform.min.js" type="text/javascript"></script>
+        <script type="text/javascript">
+        $(function(){
+            $("input[type=file].formee-small").uniform();
+        });
+        </script>
+        <link rel="stylesheet" type="text/css" media="screen" href="vendor/uniform/uniform.default.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="vendor/formee-3-1/css/formee-structure.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="vendor/formee-3-1/css/formee-style.css" />
         <style>
