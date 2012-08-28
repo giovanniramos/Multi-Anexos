@@ -7,10 +7,7 @@ if ($_POST && MultiAnexos::is_mail($_POST['email'])):
     // Instânciamos a classe, e logo em seguida definimos um email de remetente e destinatário, respectivamente
     $email = new MultiAnexos();
     $email->setMail('from', $_POST['email'], $_POST['nome']);
-    $email->setMail('to', 'giovannilauro@gmail.com');
-    $email->setMail('replyto', 'giovannilauro@gmail.com');
-    $email->setMail('cc', 'giovannilauro@gmail.com');
-    $email->setReturnPath('giovannilauro@gmail.com');
+    $email->setMail('to', 'your_name@domain.com');
 
     // Encaminhando o email
     $email->send();
