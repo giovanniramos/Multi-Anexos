@@ -19,16 +19,17 @@ endif;
     <head>
         <meta charset="UTF-8" />
         <title>Multi-Anexos</title>
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="vendor/uniform/jquery.uniform.min.js" type="text/javascript"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" charset="utf-8"></script>
+        <script src="vendor/uniform/jquery.uniform.min.js"></script>
         <script type="text/javascript">
         $(function(){
             $("input[type=file].formee-small").uniform();
         });
         </script>
-        <link rel="stylesheet" type="text/css" media="screen" href="vendor/uniform/uniform.default.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="vendor/formee-3-1/css/formee-structure.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="vendor/formee-3-1/css/formee-style.css" />
+        <link rel="stylesheet" href="vendor/uniform/uniform.default.css" media="screen" />
+        <script src="vendor/formee-3-1/js/formee.js"></script>
+        <link rel="stylesheet" href="vendor/formee-3-1/css/formee-structure.css" media="screen" />
+        <link rel="stylesheet" href="vendor/formee-3-1/css/formee-style.css" media="screen" />
         <style>
             * {margin:0;padding:0;}
             form:after, div:after, ol:after, ul:after, li:after, dl:after {content:".";display:block;clear:both;visibility:hidden;height:0;overflow:hidden;} /* fix  ff bugs */
@@ -68,27 +69,38 @@ endif;
                     <input type="text" id="email" name="email" class="formee-small" />
                 </div>
                 <div class="grid-12-12">
-                    <label for="telefone">Telefone</label>
-                    <input type="text" id="telefone" name="telefone" class="formee-small" />
-                </div>
-                <div class="grid-12-12">
                     <label for="arquivo1">Anexo #1</label>
-                    <input type="file" id="arquivo1" name="arquivo[]" class="formee-small" />
+                    <div class="file-wrapper">
+                        <input type="text" id="arquivo1" readonly="readonly">
+                        <div>
+                            <button></button><input type="file" name="arquivo[]" class="formee-small">
+                        </div>
+                    </div>
                 </div>
                 <div class="grid-12-12">
                     <label for="arquivo2">Anexo #2</label>
-                    <input type="file" id="arquivo2" name="arquivo[]" class="formee-small" />
+                    <div class="file-wrapper">
+                        <input type="text" id="arquivo2" readonly="readonly">
+                        <div>
+                            <button></button><input type="file" name="arquivo[]" class="formee-small">
+                        </div>
+                    </div>
                 </div>
                 <div class="grid-12-12">
                     <label for="arquivo3">Anexo #3</label>
-                    <input type="file" id="arquivo3" name="arquivo[]" class="formee-small" />
+                    <div class="file-wrapper">
+                        <input type="text" id="arquivo3" readonly="readonly">
+                        <div>
+                            <button></button><input type="file" name="arquivo[]" class="formee-small">
+                        </div>
+                    </div>
                 </div>
                 <div class="grid-12-12">
                     <label for="mensagem">Mensagem</label>
-                    <textarea id="mensagem" name="mensagem" cols="10" rows="10"></textarea>
+                    <textarea id="mensagem" name="mensagem" cols="10" rows="10" class="formee-small"></textarea>
                 </div>
                 <div class="grid-12-12">
-                    <input type="submit" value="ENVIAR" />
+                    <input type="submit" value="ENVIAR" class="formee-button" />
                 </div>
             </fieldset>
         </form>
