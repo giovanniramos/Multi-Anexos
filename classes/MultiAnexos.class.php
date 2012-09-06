@@ -68,7 +68,7 @@ class MultiAnexos
      * @return boolean Retorna true, se o e-mail estiver correto
      *
      * */
-    public function is_mail($mail = null)
+    public static function is_mail($mail = null)
     {
         return (filter_var(trim($mail), FILTER_VALIDATE_EMAIL) ? true : false);
     }
@@ -116,7 +116,7 @@ class MultiAnexos
             $type = str_replace('_', null, $type);
 
             if (isset($type) && mb_ereg('^[[:lower:]]*$', $type)):
-                if (!is_array($this->$type))
+                if (!is_array(@$this->$type))
                     $this->$type = array();
                 array_push($this->$type, array($mail, $name));
                 return $this->$type;
@@ -137,7 +137,7 @@ class MultiAnexos
         if (isset($type)):
             if (!$this->$type)
                 return false;
-            if (!is_array($list))
+            if (!is_array(@$list))
                 $list = array();
 
             foreach ($this->$type as $k => $v)
