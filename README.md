@@ -30,46 +30,42 @@ Configuração
 <?php
 
 // Iniciando a instância da classe
-$email = new MultiAnexos();
-
-
-// Configurando o corpo do email
-$email->setHTML("
-	<b>Telefone:</b> " . $_POST['telefone'] . "<br />
-	<b>Mensagem:</b> " . $_POST['mensagem'] . "<br />
-");
+$multianexo = new MultiAnexos();
 
 
 // SUBJECT: são duas as formas de se definir o assunto da mensagem
+# 1 - definindo durante a instância da classe
+$multianexo = new MultiAnexos('Assunto da mensagem'); 
 
-# Forma 1 - definindo durante a instância da classe
-$email = new MultiAnexos('Assunto da mensagem'); 
+# 2 - definindo através do método setSubject()
+$multianexo->setSubject('Assunto da mensagem');
 
-# Forma 2 - definindo usando o método setSubject()
-$email->setSubject('Assunto da mensagem');
+
+// Definindo o título da mensagem de e-mail
+$multianexo->setTitle('MENSAGEM');
 
 
 // FROM: definindo o e-mail do remetente
-$email->setMail('from', 'primeiro_email@google.com', 'Seu Nome'); // O 3º parâmetro é opcional
-$email->setMail('from', 'segundo_email@google.com'); // O método setMail(), suporta adicionar múltiplos e-mails
-$email->setMail('from', 'email_errado.com'); // Este e-mail está incorreto, portanto não será adicionado
+$multianexo->setMail('from', 'primeiro_email@google.com', 'Seu Nome'); // O 3º parâmetro é opcional
+$multianexo->setMail('from', 'segundo_email@google.com'); // O método setMail(), suporta adicionar múltiplos e-mails
+$multianexo->setMail('from', 'email_incorreto.com'); // Este e-mail foi definido incorretamente e portanto não será adicionado
 
 
 // TO: definindo o e-mail do destinatário
-$email->setMail('to', 'joao@google.com');
-$email->setMail('to', 'maria@google.com', 'Maria'); 
+$multianexo->setMail('to', 'joao@google.com');
+$multianexo->setMail('to', 'maria@google.com', 'Maria'); 
 
 
 // CC: definindo um e-mail que receberá a mensagem como cópia
-$email->setMail('cc', 'pedro@google.com', 'Pedro');
+$multianexo->setMail('cc', 'pedro@google.com', 'Pedro');
 
 
 // BCC: definindo um e-mail oculto que receberá a mensagem como cópia
-$email->setMail('bcc', 'augusto@google.com', 'Augusto');
+$multianexo->setMail('bcc', 'augusto@google.com', 'Augusto');
 
 
 // REPLY-TO: definindo um e-mail de resposta
-$email->setMail('replyto', 'joao@google.com', 'João');
+$multianexo->setMail('replyto', 'joao@google.com', 'João');
 
 
 // RETURN-PATH: é muito importante informar um e-mail de retorno
@@ -78,17 +74,25 @@ $email->setMail('replyto', 'joao@google.com', 'João');
 // Troque para FALSE se desejar desativar, ou um outro e-mail para sobrescrever a do servidor
 // Nota: sobrescrever não é permitido em alguns servidores de e-mail
 
-# Forma 1 - sobrescrevendo o e-mail padrão
-$email->setReturnPath('outro_email@google.com');
+# 1 - sobrescrevendo o e-mail padrão
+$multianexo->setReturnPath('outro_email@google.com');
 
-# Forma 2 - desativando o e-mail de retorno
-$email->setReturnPath(false);
+# 2 - desativando o e-mail de retorno
+$multianexo->setReturnPath(false);
+
+
+// Definindo a estilização da mensagem de e-mail
+$multianexo->setStyleBody('background:#eee;');
+$multianexo->setStyleTable('margin:auto;');
+$multianexo->setStyleTableTr('font-size:12px;');
+$multianexo->setStyleTableTh('color:#fff;background-color:#222;');
+$multianexo->setStyleTableTd('color:#222;background-color:#fff;');
 
 
 // E por fim, depois de toda a configuração, para enviar o formulário utilize o método send()
 // Nota: Se você estiver testando o script em um servidor local (Ex.:Xampp), abra o php.ini,
 // localize e descomente a linha com "sendmail_path", para usar a função mail()
-$email->send();
+$multianexo->send();
 
 ?>
 ~~~ 

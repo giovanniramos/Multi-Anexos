@@ -4,10 +4,10 @@ require_once 'classes/MultiAnexos.class.php';
 
 if ($_POST && MultiAnexos::is_mail($_POST['email'])):
 
-    // Instânciamos a classe, e logo em seguida definimos um email de remetente e destinatário, respectivamente
+    // Instânciamos a classe, e logo em seguida definimos um e-mail de remetente e destinatário, respectivamente
     $multianexo = new MultiAnexos();
     $multianexo->setMail('from', $_POST['email'], $_POST['nome']);
-    $multianexo->setMail('to', 'gramosdesigner@gmail.com');
+    $multianexo->setMail('to', 'email@google.com');
     $multianexo->setTitle('MENSAGEM');
 
     // Exemplo de estilização da mensagem de e-mail
