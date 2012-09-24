@@ -9,31 +9,39 @@
  * @author Giovanni Ramos <giovannilauro@gmail.com>
  * @copyright 2009-2012, Giovanni Ramos
  * @since 2009-09-23 
- * @version 2.6
+ * @version 2.7
  * @license http://opensource.org/licenses/gpl-3.0.html GNU Public License
  * @link https://github.com/giovanniramos/Multi-Anexos
  *
  * */
 class MultiAnexos
 {
-
     /**
      * Armazena o cabeçalho e o corpo da mensagem, respectivamente
      * 
-     * @access public static
+     * @access private static
      * @var string
      * 
      * */
-    public static $head, $body;
+    private static $head, $body;
 
     /**
      * Armazena o e-mail padrão de retorno
      * 
-     * @access public
+     * @access private
      * @var string
      * 
      * */
-    public $returnPath;
+    private $returnPath;
+
+    /**
+     * Armazenam a estilização da mensagem de e-mail
+     * 
+     * @access private
+     * @var string
+     * 
+     * */
+    private $_body, $_table, $_table_tr, $_table_th, $_table_td;
 
     /**
      * Define um limite no cabeçalho da mensagem
@@ -53,9 +61,9 @@ class MultiAnexos
      * */
     public function __construct($subject = null)
     {
-        self::setHTML();
         self::setReturnPath();
 
+        $this->title = null;
         $this->subject = $subject;
         $this->boundary = '==Multipart_Boundary_' . md5(uniqid(time()));
     }
@@ -63,7 +71,7 @@ class MultiAnexos
     /**
      * Método para validar o e-mail
      * 
-     * @access public
+     * @access public static
      * @param string $mail E-mail válido
      * @return boolean Retorna true, se o e-mail estiver correto
      *
@@ -71,6 +79,31 @@ class MultiAnexos
     public static function is_mail($mail = null)
     {
         return (filter_var(trim($mail), FILTER_VALIDATE_EMAIL) ? true : false);
+    }
+
+    /**
+     * Método para atribuir um título ao corpo do e-mail
+     * 
+     * @access public
+     * @param string $title Título do e-mail
+     * @return void
+     *
+     * */
+    public function setTitle($title = null)
+    {
+        $this->title = $title;
+    }
+
+    /**
+     * Método para devolver o título do e-mail
+     * 
+     * @access private
+     * @return string Retorna vazio, se o título não for definido
+     *
+     * */
+    private function getTitle()
+    {
+        return (!is_null($this->title)) ? $this->title : null;
     }
 
     /**
@@ -174,10 +207,10 @@ class MultiAnexos
     }
 
     /**
-     * Método para capturar variáveis enviadas via POST, pelo formulário 
+     * Método para capturar os valores enviados pelo formulário
      * 
      * @access private
-     * @return string Retorna uma lista de variáveis
+     * @return string Retorna uma lista formatada dos valores
      *
      * */
     private function getPOST()
@@ -190,7 +223,7 @@ class MultiAnexos
     }
 
     /**
-     * Método para exibir as variáveis submetidas pelo formulário
+     * Método para exibir os valores enviados pelo formulário via POST
      * 
      * @access public static
      * @return string void
@@ -200,6 +233,151 @@ class MultiAnexos
     {
         if ($_POST)
             echo '<pre>', htmlspecialchars(print_r($_POST, true)), '</pre>';
+    }
+
+    /**
+     * Método para aplicar estilo ao <body> da mensagem de e-mail
+     * 
+     * @access public
+     * @param string $css Regras CSS
+     * @return \MultiAnexos
+     *
+     * */
+    public function setCssBody($css)
+    {
+        $this->_body = $css;
+
+        return $this;
+    }
+
+    /**
+     * Método para devolver a estilização do <body>
+     * 
+     * @access private
+     * @return string Regras CSS
+     *
+     * */
+    private function getCssBody()
+    {
+        $css = 'padding:20px 0;';
+
+        return (!empty($this->_body)) ? $css . $this->_body : $css;
+    }
+
+    /**
+     * Método para aplicar estilo na tag <table> da mensagem de e-mail
+     * 
+     * @access public
+     * @param string $css Regras CSS
+     * @return \MultiAnexos
+     *
+     * */
+    public function setCssTable($css)
+    {
+        $this->_table = $css;
+
+        return $this;
+    }
+
+    /**
+     * Método para devolver a estilização da tag <table>
+     * 
+     * @access private
+     * @return string Regras CSS
+     *
+     * */
+    private function getCssTable()
+    {
+        $css = 'padding:0;min-width:400px;';
+
+        return (!empty($this->_table)) ? $css . $this->_table : $css;
+    }
+
+    /**
+     * Método para aplicar estilo na tag <tr> da mensagem de e-mail
+     * 
+     * @access public
+     * @param string $css Regras CSS
+     * @return \MultiAnexos
+     *
+     * */
+    public function setCssTableTr($css)
+    {
+        $this->_table_tr = $css;
+
+        return $this;
+    }
+
+    /**
+     * Método para devolver a estilização da tag <tr>
+     * 
+     * @access private
+     * @return string Regras CSS
+     *
+     * */
+    private function getCssTableTr()
+    {
+        $css = 'font:normal 14px arial,helvetica,sans-serif;';
+
+        return (!empty($this->_table_tr)) ? $css . $this->_table_tr : $css;
+    }
+
+    /**
+     * Método para aplicar estilo na tag <th> da mensagem de e-mail
+     * 
+     * @access public
+     * @param string $css Regras CSS
+     * @return \MultiAnexos
+     *
+     * */
+    public function setCssTableTh($css)
+    {
+        $this->_table_th = $css;
+
+        return $this;
+    }
+
+    /**
+     * Método para devolver a estilização da tag <th>
+     * 
+     * @access private
+     * @return string Regras CSS
+     *
+     * */
+    private function getCssTableTh()
+    {
+        $css = 'padding:6px;';
+
+        return (!empty($this->_table_th)) ? $css . $this->_table_th : $css;
+    }
+
+    /**
+     * Método para aplicar estilo na tag <td> da mensagem de e-mail
+     * 
+     * @access public
+     * @param string $css Regras CSS
+     * @return \MultiAnexos
+     *
+     * */
+    public function setCssTableTd($css)
+    {
+        $this->_table_td = $css;
+
+        return $this;
+    }
+
+    /**
+     * Método para devolver a estilização da tag <td>
+     * 
+     * @access private
+     * @return string Regras CSS
+     *
+     * */
+    private function getCssTableTd()
+    {
+        $css = 'padding:20px;';
+
+        return (!empty($this->_table_td)) ? $css . $this->_table_td : $css;
     }
 
     /**
@@ -215,25 +393,29 @@ class MultiAnexos
         self::$body = (!is_null($body)) ? $body :
         '<!DOCTYPE html>
         <html>
-        <head>
-        <meta charset="UTF-8" />
-        <style>
-        body {background:#FFFFFF;}
-        a, a:link {color:#5b6105; text-decoration:none;}
-        table {border:1px solid #8F8E96; margin:0; padding:0; width:500px;}
-        table tr {background:#F6F6F6;}
-        table td {color:#000000; border:dashed 1px #DDD; font:normal 11px arial,helvetica,sans-serif; padding:30px;}
-        </style>
-        </head>
-        <body>
-        <br />
-        <table border="0" cellspacing="10" cellpadding="0">
-        <tr><td>' . self::getPOST() . '</td></tr>
+        <head><meta charset="UTF-8" /></head>
+        <body style="' . $this->getCssBody() . '">
+        <table border="0" cellspacing="0" cellpadding="0" style="' . $this->getCssTable() . '">
+        <tr style="' . $this->getCssTableTr() . '"><th style="' . $this->getCssTableTh() . '">' . $this->getTitle() . '</th></tr>    
+        <tr style="' . $this->getCssTableTr() . '"><td style="' . $this->getCssTableTd() . '">' . self::getPOST() . '</td></tr>
         </table>
-        <br />
         </body>
         </html>
         ';
+    }
+
+    /**
+     * Método para exibir a mensagem enviada no corpo do e-mail
+     * 
+     * @access private static
+     * @return string void
+     *
+     * */
+    private function getHTML()
+    {
+        self::setHTML();
+
+        return self::cleanHTML();
     }
 
     /**
@@ -250,6 +432,18 @@ class MultiAnexos
     }
 
     /**
+     * Método para limpar os espaços tabulados na mensagem 
+     * 
+     * @access private
+     * @return string Retorna o BODY da mensagem
+     *
+     * */
+    private function cleanHTML()
+    {
+        return str_replace('\t', null, self::$body);
+    }
+
+    /**
      * Método para preparar o cabeçalho da mensagem
      * 
      * @access private
@@ -257,7 +451,7 @@ class MultiAnexos
      * @return void
      *
      * */
-    private function setHeader($multipart = false)
+    private function setHeader($multipart)
     {
         self::$head
         = ('MIME-Version: 1.0' . PHP_EOL)
@@ -277,21 +471,11 @@ class MultiAnexos
      * @return string Retorna o HEADER da mensagem
      *
      * */
-    private function getHeader()
+    private function getHeader($has_file)
     {
-        return self::$head;
-    }
+        self::setHeader($has_file);
 
-    /**
-     * Método para limpar os espaços tabulados na mensagem 
-     * 
-     * @access private
-     * @return string Retorna o BODY da mensagem
-     *
-     * */
-    private function cleanHTML()
-    {
-        return str_replace('\t', null, self::$body);
+        return self::$head;
     }
 
     /**
@@ -306,12 +490,11 @@ class MultiAnexos
         // Verifico se o formulário submetido, possui algum arquivo anexo
         $file = (isset($_FILES['arquivo']) && in_array('0', $_FILES['arquivo']['error'])) ? $_FILES['arquivo'] : FALSE;
 
+        $head = self::getHeader((bool) $file);
+
         $subj = self::getSubject();
 
-        $body = self::cleanHTML();
-
-        self::setHeader((bool) $file);
-        $head = self::getHeader();
+        $body = self::getHTML();
 
         // Executo a condição seguinte, se identificar um ou mais anexos junto a mensagem
         if ($file) {

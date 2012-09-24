@@ -5,12 +5,16 @@ require_once 'classes/MultiAnexos.class.php';
 if ($_POST && MultiAnexos::is_mail($_POST['email'])):
 
     // Instânciamos a classe, e logo em seguida definimos um email de remetente e destinatário, respectivamente
-    $email = new MultiAnexos();
-    $email->setMail('from', $_POST['email'], $_POST['nome']);
-    $email->setMail('to', 'your_name@domain.com');
+    $multianexo = new MultiAnexos();
+    $multianexo->setMail('from', $_POST['email'], $_POST['nome']);
+    $multianexo->setMail('to', 'gramosdesigner@gmail.com');
+    $multianexo->setTitle('MENSAGEM');
+
+    // Exemplo de estilização da mensagem de e-mail
+    $multianexo->setCssBody('background:#eee;')->setCssTable('margin:auto;')->setCssTableTr('font-size:12px;')->setCssTableTh('color:#fff;background-color:#222;')->setCssTableTd('color:#222;background-color:#fff;');
 
     // Encaminhando o email
-    $email->send();
+    $multianexo->send();
 
 endif;
 ?>
@@ -26,7 +30,7 @@ endif;
         <style>
             * {margin:0;padding:0;}
             form:after, div:after, ol:after, ul:after, li:after, dl:after {content:".";display:block;clear:both;visibility:hidden;height:0;overflow:hidden;} /* fix  ff bugs */
-            body {background: #fff; font: normal 10px/1.1em Arial,Sans-Serif;margin:10px 20px;padding:0;}
+            body {background:#fff;font:normal 10px/1.1em Arial,Sans-Serif;margin:10px 20px;padding:0;}
             form {clear:both;}
         </style>
     </head>
@@ -37,7 +41,7 @@ endif;
         endif;
 
         #MultiAnexos::showPOST(); // Exibindo as variáveis após submeter o formulário
-        #MultiAnexos::showHTML(); // Exibindo um preview da mensagem html formatada
+        #MultiAnexos::showHTML(); // Exibindo a mensagem html estilizada após envio
         ?>
 
         <br />
