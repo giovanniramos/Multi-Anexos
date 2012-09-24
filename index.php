@@ -13,7 +13,7 @@ if ($_POST && MultiAnexos::is_mail($_POST['email'])):
     // Exemplo de estilização da mensagem de e-mail
     $multianexo->setCssBody('background:#eee;')->setCssTable('margin:auto;')->setCssTableTr('font-size:12px;')->setCssTableTh('color:#fff;background-color:#222;')->setCssTableTd('color:#222;background-color:#fff;');
 
-    // Encaminhando o email
+    // Encaminhando o e-mail
     $multianexo->send();
 
 endif;
@@ -54,7 +54,7 @@ endif;
             </ul>
         </div>
 
-        <form class="formee" action="<?= basename(__FILE__) ?>" method="post" enctype="multipart/form-data">
+        <form class="formee" action="<?php echo basename(__FILE__); ?>" method="post" enctype="multipart/form-data">
             <fieldset>
                 <legend>Formul&aacute;rio de Contato</legend>
                 <div class="grid-12-12">
