@@ -13,16 +13,21 @@ if ($_POST && MultiAnexos::is_mail($_POST['email'])):
     /*
     $multianexo->setTitle('ATENDIMENTO AO CLIENTE');
     
-    $mensagem.= "Nome do cliente: " . $_POST['nome'] . "<br />\n";
-    $mensagem.= "E-mail de contato: " . $_POST['email'] . "<br />\n";
-    $mensagem.= "Observaçoes: " . $_POST['mensagem'] . "<br>\n";
+    $mensagem.= "Nome do cliente: " . $_POST['nome'] . "<br />";
+    $mensagem.= "E-mail de contato: " . $_POST['email'] . "<br />";
+    $mensagem.= "Mensagem: " . $_POST['mensagem'] . "<br />";
 
     // Formatando a mensagem do e-mail
     $multianexo->setHTML($mensagem);
     */
 
     // Exemplo de estilização da mensagem de e-mail
-    $multianexo->setCssBody('background:#eee;')->setCssTable('margin:auto;')->setCssTableTr('font-size:12px;')->setCssTableTh('color:#fff;background-color:#222;')->setCssTableTd('color:#222;background-color:#fff;');
+    $multianexo
+    ->setCssBody('background:#eee;')
+    ->setCssTable('margin:auto;')
+    ->setCssTableTr('font-size:12px;')
+    ->setCssTableTh('color:#fff;background-color:#222;')
+    ->setCssTableTd('color:#222;background-color:#fff;');
 
     // Encaminhando o e-mail
     $multianexo->send();
