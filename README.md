@@ -45,6 +45,14 @@ $multianexo->setSubject('Assunto da mensagem');
 $multianexo->setTitle('MENSAGEM');
 
 
+// Formatando o corpo da mensagem de e-mail
+$mensagem = "Nome do cliente: " . $_POST['nome'] . "<br />";
+$mensagem.= "E-mail de contato: " . $_POST['email'] . "<br />";
+$mensagem.= "Mensagem: " . $_POST['mensagem'] . "<br />";
+
+$multianexo->setHTML($mensagem);
+
+
 // FROM: definindo o e-mail do remetente
 $multianexo->setMail('from', 'primeiro_email@google.com', 'Seu Nome'); // O 3º parâmetro é opcional
 $multianexo->setMail('from', 'segundo_email@google.com'); // O método setMail(), suporta adicionar múltiplos e-mails
