@@ -4,11 +4,22 @@ require_once 'classes/MultiAnexos.class.php';
 
 if ($_POST && MultiAnexos::is_mail($_POST['email'])):
 
-    // Instânciamos a classe, e logo em seguida definimos um e-mail de remetente e destinatário, respectivamente
+    // Instânciamos a classe e logo em seguida definimos um e-mail de remetente e destinatário respectivamente
     $multianexo = new MultiAnexos();
     $multianexo->setMail('from', $_POST['email'], $_POST['nome']);
     $multianexo->setMail('to', 'email@google.com');
-    $multianexo->setTitle('MENSAGEM');
+    $multianexo->setSubject('Mensagem de Contato');
+    
+    /*
+    $multianexo->setTitle('ATENDIMENTO AO CLIENTE');
+    
+    $mensagem.= "Nome do cliente: " . $_POST['nome'] . "<br />\n";
+    $mensagem.= "E-mail de contato: " . $_POST['email'] . "<br />\n";
+    $mensagem.= "Observaçoes: " . $_POST['mensagem'] . "<br>\n";
+
+    // Formatando a mensagem do e-mail
+    $multianexo->setHTML($mensagem);
+    */
 
     // Exemplo de estilização da mensagem de e-mail
     $multianexo->setCssBody('background:#eee;')->setCssTable('margin:auto;')->setCssTableTr('font-size:12px;')->setCssTableTh('color:#fff;background-color:#222;')->setCssTableTd('color:#222;background-color:#fff;');
@@ -36,18 +47,30 @@ endif;
     </head>
     <body>
         <?php
+        // Resposta do encaminhamento do e-mail
         if ($_POST):
-            echo defined('SEND_RETURN') ? SEND_RETURN : '<div class="formee-msg-warning"><h3>Informe seu nome e um email válido.</h3></div>';
+            if (!defined('SEND_RETURN')):
+                echo '<div class="formee-msg-warning"><h3>Informe seu nome e um email v&aacute;lido.</h3></div>';
+            else:
+                if (SEND_RETURN == true):
+                    echo '<div class="formee-msg-success"><ul><li>Sua mensagem foi enviada com sucesso.</li></ul></div>';
+                else:
+                    echo '<div class="formee-msg-error"><ul><li>Sua mensagem n&atilde;o p&ocirc;de ser enviada.</li><li>Por favor tente novamente mais tarde.</li></ul></div>';
+                endif;
+            endif;
         endif;
 
-        #MultiAnexos::showPOST(); // Exibindo as variáveis após submeter o formulário
-        #MultiAnexos::showHTML(); // Exibindo a mensagem html estilizada após envio
+        // Exibindo as variáveis após o envio do formulário
+        #MultiAnexos::showPOST();
+
+        // Exibindo a mensagem html estilizada após o envio do formulário
+        #MultiAnexos::showHTML(); 
         ?>
 
         <br />
 
         <div class="formee-msg-info">
-            <h3>Segue as instruções</h3>
+            <h3>Segue as instru&ccedil;&otilde;es</h3>
             <ul>
                 <li>Preencha o formul&aacute;rio abaixo para enviar sua mensagem.</li>
                 <li>&Eacute; necess&aacute;rio preencher todos os campos obrigat&oacute;rios.</li>
@@ -70,7 +93,7 @@ endif;
                     <div class="file-wrapper">
                         <input type="text" id="arquivo1" readonly="readonly">
                         <div>
-                            <button></button><input type="file" name="arquivo[]" class="formee-small">
+                            <button></button><input type="file" name="multianexo[]" class="formee-small">
                         </div>
                     </div>
                 </div>
@@ -79,7 +102,7 @@ endif;
                     <div class="file-wrapper">
                         <input type="text" id="arquivo2" readonly="readonly">
                         <div>
-                            <button></button><input type="file" name="arquivo[]" class="formee-small">
+                            <button></button><input type="file" name="multianexo[]" class="formee-small">
                         </div>
                     </div>
                 </div>
@@ -88,7 +111,7 @@ endif;
                     <div class="file-wrapper">
                         <input type="text" id="arquivo3" readonly="readonly">
                         <div>
-                            <button></button><input type="file" name="arquivo[]" class="formee-small">
+                            <button></button><input type="file" name="multianexo[]" class="formee-small">
                         </div>
                     </div>
                 </div>

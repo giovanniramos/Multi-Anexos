@@ -9,7 +9,7 @@
  * @author Giovanni Ramos <giovannilauro@gmail.com>
  * @copyright 2009-2012, Giovanni Ramos
  * @since 2009-09-23 
- * @version 2.7
+ * @version 2.8
  * @license http://opensource.org/licenses/gpl-3.0.html GNU Public License
  * @link https://github.com/giovanniramos/Multi-Anexos
  *
@@ -390,14 +390,15 @@ class MultiAnexos
      * */
     public function setHTML($body = null)
     {
-        self::$body = (!is_null($body)) ? $body :
+        $_body = (!is_null($body)) ? $body : self::getPOST();
+        self::$body =
         '<!DOCTYPE html>
         <html>
         <head><meta charset="UTF-8" /></head>
         <body style="' . $this->getCssBody() . '">
         <table border="0" cellspacing="0" cellpadding="0" style="' . $this->getCssTable() . '">
         <tr style="' . $this->getCssTableTr() . '"><th style="' . $this->getCssTableTh() . '">' . $this->getTitle() . '</th></tr>    
-        <tr style="' . $this->getCssTableTr() . '"><td style="' . $this->getCssTableTd() . '">' . self::getPOST() . '</td></tr>
+        <tr style="' . $this->getCssTableTr() . '"><td style="' . $this->getCssTableTd() . '">' . $_body . '</td></tr>
         </table>
         </body>
         </html>
@@ -405,7 +406,7 @@ class MultiAnexos
     }
 
     /**
-     * Método para exibir a mensagem enviada no corpo do e-mail
+     * Método para tratar a mensagem do corpo do e-mail
      * 
      * @access private static
      * @return string void
@@ -413,13 +414,14 @@ class MultiAnexos
      * */
     private function getHTML()
     {
-        self::setHTML();
+        if (!isset(self::$body))
+            self::setHTML();
 
         return self::cleanHTML();
     }
 
     /**
-     * Método para exibir a mensagem enviada no corpo do e-mail
+     * Método para exibir a mensagem enviada
      * 
      * @access public static
      * @return string void
@@ -487,20 +489,26 @@ class MultiAnexos
      * */
     public function send()
     {
-        // Verifico se o formulário submetido, possui algum arquivo anexo
-        $file = (isset($_FILES['arquivo']) && in_array('0', $_FILES['arquivo']['error'])) ? $_FILES['arquivo'] : FALSE;
+        // Verifico se o formulário submetido possui algum arquivo anexo
+        $file = (isset($_FILES['multianexo']) && in_array('0', $_FILES['multianexo']['error'])) ? $_FILES['multianexo'] : FALSE;
 
+        // Cabeçalho da mensagem
         $head = self::getHeader((bool) $file);
 
+        // Assunto da mensagem
         $subj = self::getSubject();
 
+        // Corpo da mensagem
         $body = self::getHTML();
 
         // Executo a condição seguinte, se identificar um ou mais anexos junto a mensagem
         if ($file) {
 
-            // Removendo da matriz os anexos falsos
-            for ($x = 0; $x < count($_FILES['arquivo']['name']); $x++):
+            // Número de arquivos anexos a mensagem
+            $count = count($file['name']);
+
+            // Removendo da matriz os anexos corrompidos
+            for ($x = 0; $x < $count; $x++):
                 if ($file['error'][$x] <> UPLOAD_ERR_OK) {
                     unset($file['name'][$x]);
                     unset($file['size'][$x]);
@@ -517,7 +525,7 @@ class MultiAnexos
                 }
             endfor;
 
-
+            // Corpo HTML da mensagem
             $html = stripslashes($body);
 
             // Criando os cabeçalhos MIME utilizados para separar as partes da mensagem 
@@ -527,40 +535,39 @@ class MultiAnexos
             $body.= $html . PHP_EOL;
             $body.= '--' . $this->boundary . PHP_EOL;
 
-            for ($i = 0; $i < sizeof($attach); $i++):
+            // Número de anexos
+            $count = count($attach);
+
+            // Incorporando os anexos
+            for ($i = 0; $i < $count; $i++):
                 if (is_uploaded_file($attach[$i][3])) {
-                    $Name = $attach[$i][0];
-                    $Size = $attach[$i][1];
-                    $Type = $attach[$i][2];
-                    $Temp = $attach[$i][3];
+                    $_name = $attach[$i][0];
+                    $_size = $attach[$i][1];
+                    $_type = $attach[$i][2];
+                    $_temp = $attach[$i][3];
 
-                    if ((strlen($Name) > 1) && ($Size > 0)) {
-                        $fopen = fopen($Temp, "rb");
-                        $fread = fread($fopen, filesize($Temp));
-                        $cript = base64_encode($fread);
+                    if ((strlen($_name) > 1) && ($_size > 0)) {
+                        $fopen = fopen($_temp, "rb");
+                        $fread = fread($fopen, filesize($_temp));
                         $close = fclose($fopen);
-                        $chunk = chunk_split($cript);
+                        $chunk = chunk_split(base64_encode($fread));
 
-                        $body.= 'Content-Disposition: attachment; filename="' . $Name . '"' . PHP_EOL;
-                        $body.= 'Content-Type: ' . $Type . '; name="' . $Name . '"' . PHP_EOL;
+                        $body.= 'Content-Disposition: attachment; filename="' . $_name . '"' . PHP_EOL;
+                        $body.= 'Content-Type: ' . $_type . '; name="' . $_name . '"' . PHP_EOL;
                         $body.= 'Content-Transfer-Encoding: base64' . PHP_EOL . PHP_EOL;
                         $body.= $chunk . PHP_EOL;
                         $body.= '--' . $this->boundary;
-                        $body.= (sizeof($attach) == $i + 1) ? '--' . PHP_EOL . PHP_EOL : PHP_EOL;
+                        $body.= ($count == $i + 1) ? '--' . PHP_EOL . PHP_EOL : PHP_EOL;
                     }
                 }
             endfor;
         }
 
-        // Encaminhando o email e armazenando a mensagem de status do envio na constante SEND_RETURN
+        // Encaminhando o e-mail e armazenando a mensagem com o status do envio
         $status = mail(null, $subj, $body, $head, ((bool) $this->returnPath ? '-f' . self::getReturnPath() : null)) ? true : false;
 
-        // Mensagem de status do envio
-        $status_message = ($status) ?
-        '<div class="formee-msg-success"><ul><li>Sua mensagem foi enviada com sucesso.</li></ul></div>' :
-        '<div class="formee-msg-error"><ul><li>Sua mensagem n&atilde;o p&ocirc;de ser enviada.</li><li>Por favor tente novamente mais tarde.</li></ul></div>';
-
-        define('SEND_RETURN', $status_message);
+        // Definindo uma constante com o status do envio
+        define('SEND_RETURN', ($status == true) ? true : false);
 
         return $status;
     }
